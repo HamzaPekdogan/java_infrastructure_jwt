@@ -1,12 +1,12 @@
-package example.security;
+package soru.security;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import example.dao.CalisanDAO;
-import example.entity.Kullanicilar;
+import soru.dao.CalisanDAO;
+import soru.entity.Kullanici;
 
 import static java.util.Collections.emptyList;
 
@@ -20,10 +20,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String kulAdi) throws UsernameNotFoundException {
-        Kullanicilar kullanicilar = calisanDAO.findByKullaniciAdi(kulAdi);
-        if (kullanicilar == null) {
+        Kullanici kullanici = calisanDAO.findByKullaniciAdi(kulAdi);
+        if (kullanici == null) {
             throw new UsernameNotFoundException(kulAdi);
         }
-        return new User(kullanicilar.getKullaniciAdi(), kullanicilar.getSifre(), emptyList());
+        return new User(kullanici.getKullaniciAdi(), kullanici.getSifre(), emptyList());
     }
 }

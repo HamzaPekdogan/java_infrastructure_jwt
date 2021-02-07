@@ -1,4 +1,4 @@
-package example.audit;
+package soru.audit;
 
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;

@@ -1,4 +1,4 @@
-package example.entity;
+package soru.entity;
 
 import lombok.Getter;
 import lombok.Setter;

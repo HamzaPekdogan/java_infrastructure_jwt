@@ -1,0 +1,1 @@
+INSERT INTO public.rol(id, created_by, creation_date, durum, last_modified_date, modified_by, rol_adi)VALUES (1, 1,  null, 1, null, 1,'admin');

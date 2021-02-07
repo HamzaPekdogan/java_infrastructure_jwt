@@ -1,4 +1,4 @@
-package example.security;
+package soru.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,25 +14,42 @@ import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import example.config.JWTAuthenticationFilter;
-import example.config.JWTAuthorizationFilter;
+import soru.config.CheckUrlFilter;
+import soru.config.JWTAuthenticationFilter;
+import soru.config.JWTAuthorizationFilter;
+import soru.dao.CalisanDAO;
+import soru.dao.KulRolDao;
+import soru.dao.RolDao;
+import soru.dao.UrlRolDao;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static example.config.SecurityConstants.SIGN_UP_URL;
+import static soru.config.SecurityConstants.SIGN_UP_URL;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private KulRolDao kulRolDao;
+    @Autowired
+    private RolDao rolDao;
+    @Autowired
+    private CalisanDAO calisanDAO;
+    @Autowired
+    private UrlRolDao urlRolDao;
 
-    public WebSecurityConfig(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurityConfig(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder, KulRolDao kulRolDao, RolDao rolDao, CalisanDAO calisanDAO,UrlRolDao urlRolDao) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.kulRolDao = kulRolDao;
+        this.rolDao = rolDao;
+        this.calisanDAO = calisanDAO;
+        this.urlRolDao = urlRolDao;
     }
 
 
@@ -44,7 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(new WebSecurityCorsFilter(), ChannelProcessingFilter.class)
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(),this.kulRolDao,this.rolDao,this.calisanDAO))
+                .addFilter(new CheckUrlFilter(authenticationManager(),this.kulRolDao,this.rolDao,this.calisanDAO,this.urlRolDao))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .logout()

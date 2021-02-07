@@ -1,4 +1,4 @@
-package example.config;
+package soru.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import example.entity.Kullanicilar;
+import soru.entity.Kullanici;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static example.config.SecurityConstants.*;
+import static soru.config.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -33,8 +33,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            Kullanicilar creds = new ObjectMapper()
-                    .readValue(req.getInputStream(), Kullanicilar.class);
+            Kullanici creds = new ObjectMapper()
+                    .readValue(req.getInputStream(), Kullanici.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

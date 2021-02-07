@@ -1,7 +1,7 @@
-package example.dao;
+package soru.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import example.entity.BaseEntity;
+import soru.entity.BaseEntity;
 
 import java.io.Serializable;
 

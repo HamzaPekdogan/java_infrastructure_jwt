@@ -1,4 +1,4 @@
-package example.config;
+package soru.config;
 
 public class SecurityConstants {
     public static final String SECRET = "Zendem";
